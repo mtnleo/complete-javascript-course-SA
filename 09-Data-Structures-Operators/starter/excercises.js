@@ -224,22 +224,57 @@ const books = [
   },
 ];
 
-// 1. Destructure the books array into two variables called firstBook and secondBook.
+// 1.1 Destructure the books array into two variables called firstBook and secondBook.
 const [firstBook, secondBook] = books;
 // console.log(firstBook, secondBook);
 
-// 2. Destructure the books array into a variable called thirdBook. You must skip the first two books
+// 1.2 Destructure the books array into a variable called thirdBook. You must skip the first two books
 const [, , thirdBook] = books;
 // console.log(thirdBook);
 
-// 3.Below is the nested ratings array that contains two other arrays. Destructure the nested ratings arrays into two variables called rating and ratingsCount. In the result of your destructuring, the ratings variable should store a number 4.19, and the ratingsCount variable should store a number 144584.
+// 1.3 Below is the nested ratings array that contains two other arrays. Destructure the nested ratings arrays into two variables called rating and ratingsCount. In the result of your destructuring, the ratings variable should store a number 4.19, and the ratingsCount variable should store a number 144584.
 const ratings = [
   ['rating', 4.19],
   ['ratingsCount', 144584],
 ];
 const [[, rating], [, ratingsCount]] = ratings;
-console.log(rating, ratingsCount);
+// console.log(rating, ratingsCount);
 
-// 4. Below is the ratingStars array. Destructure it into three variables called fiveStarRatings, oneStarRatings and threeStarRatings. Assign the threeStarRatings variable with a default value of 0.
+// 1.4 Below is the ratingStars array. Destructure it into three variables called fiveStarRatings, oneStarRatings and threeStarRatings. Assign the threeStarRatings variable with a default value of 0.
 const ratingStars = [63405, 1808];
 const [fiveStarRatings, oneStarRatings, threeStarRatings = 0] = ratingStars;
+
+// Object destructuring
+// 2.1 Destructure the first book object from the books array into variables called title, author and ISBN.
+const [{ title, author, ISBN }] = books;
+// console.log(title, author, ISBN);
+
+// 2.2 Each book object has the keywords property. Destructure the first book object from the books array into a variable called tags. The tags variable should be assigned with the value of the keywords property.
+const [{ keywords: tags }] = books;
+
+// 2.3 The seventh book from the books array is missing the programmingLanguage property. Destructure the seventh book object (books[6]) into variables called language and programmingLanguage. Assign the programmingLanguage variable with a default value of 'unknown'.
+const { language, programmingLanguage = 'unknown' } = books[6];
+
+// 2.4 Below are two variables called bookTitle and bookAuthor. Reassign them with the values of the title and author properties of the first book object from the books array.
+let bookTitle = 'unknown';
+let bookAuthor = 'unknown';
+[{ title: bookTitle, author: bookAuthor }] = books;
+
+// 2.5 Destructure the first book object from the books array into a variable called bookRating. In the result of your destructuring, the bookRating variable should be assigned with the value of the book[0].thirdParty.goodreads.rating property.
+
+const [
+  {
+    thirdParty: {
+      goodreads: { rating: bookRating },
+    },
+  },
+] = books;
+
+// console.log(bookRating);
+
+// 2.6 Write a function called printBookInfo that has three parameters called title, author and year. This function should work for a single object passed as an argument, and it should log to the console information about the book in this format: "${title} by ${author}, ${year}".
+//     If year is undefined (was not passed), it should be assigned with a default value of 'year unknown'.
+
+function printBookInfo({ title, author, year = 'year unknown' }) {
+  console.log(`${title} by ${author}, ${year}`);
+}
