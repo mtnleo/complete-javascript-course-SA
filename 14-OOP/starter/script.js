@@ -161,3 +161,94 @@ car1.accelerate();
 car1.accelerate();
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// INHERITANCE WITH ES6 CLASSES
+
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // Instance methods
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.fullName}`);
+  }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  // Static method
+  static hey() {
+    console.log('Hey there 👋');
+  }
+}
+
+class StudentCl extends PersonCl {
+    constructor(fullName, birthYear, course) {
+        super(fullName, birthYear); // Needs to happen first
+        this.course = course;
+    }
+    
+    introduce() {
+        console.log(`My name is ${this.fullName} and I study ${this.course}`);
+    }
+
+    calcAge() {
+        console.log(
+        `I'm ${
+            2037 - this.birthYear
+        } years old, but as a student I feel more like ${
+            2037 - this.birthYear + 10
+        }`
+        );
+    }
+}
+
+const martin = new StudentCl('Martin Leo', 2004, 'Comp Sci')
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// INHERITANCE WITH OBJECT.CREATE
+
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function(firstName, birthYear, course) {
+    PersonProto.init.call(this, firstName, birthYear);
+    this.course = course
+}
+
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const jay = Object.create(StudentProto)
+jay.init('Jay', 2010, 'Computer Science')
+jay.introduce()
