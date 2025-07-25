@@ -1,11 +1,16 @@
 
 import * as model from './model.js';
-import recipeView from './views/recipeView.js'
+import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
-import SearchView from './views/searchView.js'
+import ResultsView from './views/resultsView.js';
 
 import 'core-js/stable' // Polyfilling ES6 features
 import 'regenerator-runtime/runtime' // Polyfilling async/await
+import resultsView from './views/resultsView.js';
+
+if(module.hot) {
+  module.hot.accept();
+}
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -30,20 +35,24 @@ const controlRecipes = async function() {
 
     // 2. Showing recipe
     recipeView.render(model.state.recipe)
-
+    
 
   } catch(err) {
-    recipeView.renderError();
+    recipeView.renderErrorresults
   }
 }
 
 const controlSearchResults = async function() {
   try {
+    resultsView.renderSpinner();
+
     const query = searchView.getQuery();
     if(!query) return;
 
 
     await model.loadSearchResults(query);
+
+    resultsView.render(model.state.search.results)
   } catch(err) {
     console.error(err);
   }
